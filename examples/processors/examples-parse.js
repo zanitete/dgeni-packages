@@ -18,27 +18,29 @@ module.exports = function parseExamplesProcessor(log, exampleMap, trimIndentatio
     $process: function(docs) {
 
       docs.forEach(function(doc) {
-        try {
-          doc.content = doc.content.replace(EXAMPLE_REGEX, function processExample(match, attributeText, exampleText) {
+        if(doc.content) {
+          try {
+            doc.content = doc.content.replace(EXAMPLE_REGEX, function processExample(match, attributeText, exampleText) {
 
-            var example = extractAttributes(attributeText);
-            var id = uniqueName(exampleMap, 'example-' + (example.name || 'example'));
-            _.assign(example, {
-              attributes: _.omit(example, ['files', 'doc']),
-              files: extractFiles(exampleText),
-              id: id,
-              doc: doc,
-              deployments: {}
+              var example = extractAttributes(attributeText);
+              var id = uniqueName(exampleMap, 'example-' + (example.name || 'example'));
+              _.assign(example, {
+                attributes: _.omit(example, ['files', 'doc']),
+                files: extractFiles(exampleText),
+                id: id,
+                doc: doc,
+                deployments: {}
+              });
+
+              // store the example information for later
+              log.debug('Storing example', id);
+              exampleMap.set(id, example);
+
+              return '{@runnableExample ' + id + '}';
             });
-
-            // store the example information for later
-            log.debug('Storing example', id);
-            exampleMap.set(id, example);
-
-            return '{@runnableExample ' + id + '}';
-          });
-        } catch(error) {
-          throw new Error(createDocMessage('Failed to parse examples', doc, error));
+          } catch(error) {
+            throw new Error(createDocMessage('Failed to parse examples', doc, error));
+          }
         }
       });
 
