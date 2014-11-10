@@ -11,9 +11,15 @@ module.exports = new Package('examples', ['jsdoc'])
 .factory(require('./services/exampleMap'))
 .factory(require('./inline-tag-defs/runnableExample'))
 
-.config(function(templateFinder, generateExamplesProcessor) {
+.config(function(templateFinder, templateEngine, generateExamplesProcessor, getInjectables) {
   templateFinder.templateFolders.push(path.resolve(packagePath, 'templates'));
 
+  templateEngine.filters = templateEngine.filters.concat(getInjectables([
+    require('./rendering/filters/code')
+  ]));
+
+  templateEngine.tags = templateEngine.tags.concat(getInjectables([require('./rendering/tags/code')]));
+  
 })
 
 .config(function(inlineTagProcessor, runnableExampleInlineTagDef) {
