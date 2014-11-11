@@ -35,6 +35,8 @@ module.exports = function parseExamplesProcessor(log, exampleMap, trimIndentatio
               // store the example information for later
               log.debug('Storing example', id);
               exampleMap.set(id, example);
+              // store example id into doc for later
+              doc.exampleId = id;
 
               return '{@runnableExample ' + id + '}';
             });

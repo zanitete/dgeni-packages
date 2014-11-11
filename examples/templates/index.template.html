@@ -6,7 +6,7 @@
   {% for stylesheet in doc.stylesheets %}<link href="{$ stylesheet.path $}" rel="stylesheet" type="text/css">
   {% endfor %}
 
-  {% for script in doc.scripts %}<script src="{$ script.path $}"></script>
+  {% for script in doc.scripts %}<script src="{$ script.path | relativeUrl(doc) $}"></script>
   {% endfor %}
 
   {% if doc.example.fixBase -%}

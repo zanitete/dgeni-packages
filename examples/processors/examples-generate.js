@@ -118,7 +118,7 @@ module.exports = function generateExamplesProcessor(log, exampleMap) {
         example: example,
         template: 'template.' + file.type,
         fileContents: file.fileContents,
-        path: file.name
+        path: 'examples/' + example.id + '/' + file.name
       };
       return fileDoc;
     },
@@ -131,8 +131,10 @@ module.exports = function generateExamplesProcessor(log, exampleMap) {
         startingLine: example.doc.startingLine,
         endingLine: example.doc.endingLine,
         example: example,
-        template: 'inline/runnableExample.template.html'
+        template: 'inline/runnableExample.template.html',
+        parent: example.doc
       };
+
       return exampleDoc;
     },
 
