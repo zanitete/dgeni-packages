@@ -3,11 +3,15 @@
  * @description
  * Inject the specified runnable example into the doc
  */
-module.exports = function runnableExampleInlineTagDef(exampleMap, createDocMessage) {
+module.exports = function runnableExampleInlineTagDef(exampleMap, createDocMessage, log) {
   return {
     name: 'runnableExample',
 
     handler: function(doc, tagName, description) {
+      if(!description) {
+        log.warn('no example for ' + doc.id);
+        return '';
+      }
 
       // The tag description should contain the id of the runnable example doc
       var example = exampleMap.get(description);
