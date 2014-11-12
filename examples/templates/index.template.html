@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Example - {$ doc.id $}</title>
-  {% for stylesheet in doc.stylesheets %}<link href="{$ stylesheet.path $}" rel="stylesheet" type="text/css">
+  {% for stylesheet in doc.stylesheets %}<link href="{$ stylesheet.path | relativeUrl(doc) $}" rel="stylesheet" type="text/css">
   {% endfor %}
 
   {% for script in doc.scripts %}<script src="{$ script.path | relativeUrl(doc) $}"></script>
